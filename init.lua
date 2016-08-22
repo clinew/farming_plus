@@ -62,10 +62,10 @@ function farming.generate_tree(pos, trunk, leaves, underground, replacements)
 		end
 	end
 	pos.y = pos.y+1
-	if not minetest.get_node_light(pos) then
+	if not minetest.get_node_light(pos, 0.5) then
 		return
 	end
-	if ret or minetest.get_node_light(pos) < 8 then
+	if ret or minetest.get_node_light(pos, 0.5) < 8 then
 		return
 	end
 	
