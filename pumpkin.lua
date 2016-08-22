@@ -148,9 +148,9 @@ minetest.register_node(":farming:big_pumpkin", {
 			minetest.set_node(pos, {name="farming:big_pumpkin_corner", param2=2})
 			pos.x = pos.x+1
 			pos.z = pos.z-2
-			minetest.set_node(pos, {name="farming:big_pumpkin_side", param2=4})
+			minetest.set_node(pos, {name="farming:big_pumpkin_side", param2=0})
 			pos.x = pos.x+1
-			minetest.set_node(pos, {name="farming:big_pumpkin_corner", param2=4})
+			minetest.set_node(pos, {name="farming:big_pumpkin_corner", param2=0})
 			pos.z = pos.z+1
 			minetest.set_node(pos, {name="farming:big_pumpkin_side", param2=3})
 			pos.z = pos.z+1
