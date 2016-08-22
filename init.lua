@@ -69,7 +69,10 @@ function farming.generate_tree(pos, trunk, leaves, underground, replacements)
 		return
 	end
 	
-	node = {name = ""}
+	if minetest.get_mapgen_params().water_level >= pos.y then
+		return
+	end
+	local node = {name = ""}
 	for dy=1,4 do
 		pos.y = pos.y+dy
 		if minetest.get_node(pos).name ~= "air" then
