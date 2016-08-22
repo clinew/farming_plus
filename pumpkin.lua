@@ -411,6 +411,12 @@ minetest.register_craft({
 	}
 })
 
+minetest.register_craft({
+	type = "shapeless",
+	output = "farming:scarecrow_light",
+	recipe = {"farming:scarecrow", "default:torch"}
+})
+
 --===============
 minetest.register_craftitem(":farming:pumpkin_bread", {
 	description = S("Pumpkin Bread"),
