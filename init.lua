@@ -175,35 +175,36 @@ minetest.register_on_generated(function(minp, maxp, seed)
                         -- Find random positions for flowers based on this random
                         local pr = PseudoRandom(seed+456)
                         for i=0,grass_amount do
-                                local x = pr:next(x0, x1)
-                                local z = pr:next(z0, z1)
-                                -- Find ground level (0...15)
-                                local ground_y = nil
-                                for y=30,0,-1 do
-                                        if minetest.get_node({x=x,y=y,z=z}).name ~= "air" then
-                                                ground_y = y
-                                                break
+                                if math.random(1, 100) == 100 then
+                                        local x = pr:next(x0, x1)
+                                        local z = pr:next(z0, z1)
+                                        -- Find ground level (0...15)
+                                        local ground_y = nil
+                                        for y=30,0,-1 do
+                                                if minetest.get_node({x=x,y=y,z=z}).name ~= "air" then
+                                                        ground_y = y
+                                                        break
+                                                end
                                         end
-                                end
-                                
-                                if ground_y then
-                                        local p = {x=x,y=ground_y+1,z=z}
-                                        local nn = minetest.get_node(p).name
-                                        -- Check if the node can be replaced
-                                        if minetest.registered_nodes[nn] and
-                                                minetest.registered_nodes[nn].buildable_to then
-                                                nn = minetest.get_node({x=x,y=ground_y,z=z}).name
-                                                if nn == "default:dirt_with_grass" then
-                                                        --local plant_choice = pr:next(1, #farming.registered_plants)
-                                                        local plant_choice = math.floor(perlin1:get2d({x=x,y=z})*(#farming.registered_plants))
-                                                        local plant = farming.registered_plants[plant_choice]
-                                                        if plant then
-                                                                minetest.set_node(p, {name=plant.full_grown})
+
+                                        if ground_y then
+                                                local p = {x=x,y=ground_y+1,z=z}
+                                                local nn = minetest.get_node(p).name
+                                                -- Check if the node can be replaced
+                                                if minetest.registered_nodes[nn] and
+                                                        minetest.registered_nodes[nn].buildable_to then
+                                                        nn = minetest.get_node({x=x,y=ground_y,z=z}).name
+                                                        if nn == "default:dirt_with_grass" then
+                                                                --local plant_choice = pr:next(1, #farming.registered_plants)
+                                                                local plant_choice = math.floor(perlin1:get2d({x=x,y=z})*(#farming.registered_plants))
+                                                                local plant = farming.registered_plants[plant_choice]
+                                                                if plant then
+                                                                        minetest.set_node(p, {name=plant.full_grown})
+                                                                end
                                                         end
                                                 end
                                         end
                                 end
-                                
                         end
                 end
                 end
