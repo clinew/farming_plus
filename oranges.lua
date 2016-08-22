@@ -2,86 +2,79 @@
 local S
 S = farming.S
 
-minetest.register_craftitem("farming_plus:orange_seed", {
-	description = S("Orange Seeds"),
-	inventory_image = "farming_orange_seed.png",
-	on_place = function(itemstack, placer, pointed_thing)
-		return farming.place_seed(itemstack, placer, pointed_thing, "farming_plus:orange_1")
+----
+
+minetest.register_node("farming_plus:orange_sapling", {
+	description = S("Orange Tree Sapling"),
+	drawtype = "plantlike",
+	tiles = {"farming_orange_sapling.png"},
+	inventory_image = "farming_orange_sapling.png",
+	wield_image = "farming_orange_sapling.png",
+	paramtype = "light",
+	walkable = false,
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.3, -0.5, -0.3, 0.3, 0.35, 0.3}
+	},
+	groups = {dig_immediate=3,flammable=2},
+	sounds = default.node_sound_defaults(),
+})
+
+minetest.register_node("farming_plus:orange_leaves", {
+	drawtype = "allfaces_optional",
+	tiles = {"default_leaves.png"},
+	paramtype = "light",
+	groups = {snappy=3, leafdecay=3, flammable=2, not_in_creative_inventory=1},
+ 	drop = {
+		max_items = 1,
+		items = {
+			{
+				items = {'farming_plus:orange_sapling'},
+				rarity = 20,
+			},
+		}
+	},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_abm({
+	nodenames = {"farming_plus:orange_sapling"},
+	interval = 60,
+	chance = 20,
+	action = function(pos, node)
+		farming.generate_tree(pos, "default:tree", "default:leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=20})
 	end
 })
 
-minetest.register_node("farming_plus:orange_1", {
-	paramtype = "light",
-	walkable = false,
-	drawtype = "plantlike",
-	drop = "",
-	tiles = {"farming_orange_1.png"},
-	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, -0.5+3/16, 0.5}
-		},
-	},
-	groups = {snappy=3, flammable=2, not_in_creative_inventory=1,plant=1},
-	sounds = default.node_sound_leaves_defaults(),
-})
+minetest.register_on_generated(function(minp, maxp, blockseed)
+	if math.random(1, 100) > 3 then
+		return
+	end
+	local tmp = {x=(maxp.x-minp.x)/2+minp.x, y=(maxp.y-minp.y)/2+minp.y, z=(maxp.z-minp.z)/2+minp.z}
+	local pos = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:dirt_with_grass"})
 
-minetest.register_node("farming_plus:orange_2", {
-	paramtype = "light",
-	walkable = false,
-	drawtype = "plantlike",
-	drop = "",
-	tiles = {"farming_orange_2.png"},
-	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, -0.5+8/16, 0.5}
-		},
-	},
-	groups = {snappy=3, flammable=2, not_in_creative_inventory=1,plant=1},
-	sounds = default.node_sound_leaves_defaults(),
-})
+	-- See corresponding function in 'bananas.lua'
+	local forest = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:tree"})
+	if forest == nil then
+		return
+	end
 
-minetest.register_node("farming_plus:orange_3", {
-	paramtype = "light",
-	walkable = false,
-	drawtype = "plantlike",
-	drop = "",
-	tiles = {"farming_orange_3.png"},
-	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, -0.5+14/16, 0.5}
-		},
-	},
-	groups = {snappy=3, flammable=2, not_in_creative_inventory=1,plant=1},
-	sounds = default.node_sound_leaves_defaults(),
-})
+	if pos ~= nil then
+		farming.generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "default:tree", "farming_plus:orange_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=10})
+	end
+end)
 
 minetest.register_node("farming_plus:orange", {
-	paramtype = "light",
-	walkable = false,
-	drawtype = "plantlike",
-	tiles = {"farming_orange_4.png"},
-	drop = {
-		max_items = 6,
-		items = {
-			{ items = {'farming_plus:orange_seed'} },
-			{ items = {'farming_plus:orange_seed'}, rarity = 2},
-			{ items = {'farming_plus:orange_seed'}, rarity = 5},
-			{ items = {'farming_plus:orange_item'} },
-			{ items = {'farming_plus:orange_item'}, rarity = 2 },
-			{ items = {'farming_plus:orange_item'}, rarity = 5 }
-		}
-	},
-	groups = {snappy=3, flammable=2, not_in_creative_inventory=1,plant=1},
-	sounds = default.node_sound_leaves_defaults(),
-})
-
-minetest.register_craftitem("farming_plus:orange_item", {
 	description = S("Orange"),
+	tiles = {"farming_orange.png"},
 	inventory_image = "farming_orange.png",
+	wield_image = "farming_orange.png",
+	drawtype = "plantlike",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {fleshy=3,dig_immediate=3,flammable=2,leafdecay=3,leafdecay_drop=1},
+	sounds = default.node_sound_defaults(),
+	
 	on_use = minetest.item_eat(4),
 })
-
-farming.add_plant("farming_plus:orange", {"farming_plus:orange_1", "farming_plus:orange_2", "farming_plus:orange_3"}, 50, 20)
