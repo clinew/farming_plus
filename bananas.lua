@@ -39,6 +39,7 @@ minetest.register_abm({
 	nodenames = {"farming_plus:banana_sapling"},
 	interval = 60,
 	chance = 20,
+	catch_up = true,
 	action = function(pos, node)
 		farming.generate_tree(pos, "default:tree", "farming_plus:banana_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=20})
 	end
