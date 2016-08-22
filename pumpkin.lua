@@ -67,6 +67,9 @@ minetest.register_node(":farming:pumpkin", {
 			node.name = "farming:pumpkin_face"
 			minetest.set_node(pos, node)
 			puncher:get_inventory():add_item("main", ItemStack("farming:pumpkin_seed"))
+			if math.random(1, 2) == 1 then
+				puncher:get_inventory():add_item("main", ItemStack("farming:pumpkin_seed"))
+			end
 			if math.random(1, 5) == 1 then
 				puncher:get_inventory():add_item("main", ItemStack("farming:pumpkin_seed"))
 			end
