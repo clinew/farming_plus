@@ -40,18 +40,25 @@ minetest.register_abm({
 	interval = 60,
 	chance = 20,
 	action = function(pos, node)
-		farming.generate_tree(pos, "default:tree", "farming_plus:cocoa_leaves", {"default:sand", "default:desert_sand"}, {["farming_plus:cocoa"]=20})
+		farming.generate_tree(pos, "default:tree", "farming_plus:cocoa_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cocoa"]=20})
 	end
 })
 
 minetest.register_on_generated(function(minp, maxp, blockseed)
-	if math.random(1, 100) > 5 then
+	if math.random(1, 100) > 17 then
 		return
 	end
 	local tmp = {x=(maxp.x-minp.x)/2+minp.x, y=(maxp.y-minp.y)/2+minp.y, z=(maxp.z-minp.z)/2+minp.z}
-	local pos = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:desert_sand"})
+
+	-- See corresponding function in 'bananas.ini'.
+	local jungle = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:jungletree"})
+	if jungle == nil then
+		return
+	end
+
+	local pos = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:dirt_with_grass"})
 	if pos ~= nil then
-		farming.generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "default:tree", "farming_plus:cocoa_leaves", {"default:sand", "default:desert_sand"}, {["farming_plus:cocoa"]=20})
+		farming.generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "default:tree", "farming_plus:cocoa_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cocoa"]=20})
 	end
 end)
 
