@@ -1,14 +1,15 @@
-farming.registered_plants = {}
+farming_plus = {}
+farming_plus.registered_plants = {}
 
 -- Boilerplate to support localized strings if intllib mod is installed.
 if (minetest.get_modpath("intllib")) then
 	dofile(minetest.get_modpath("intllib").."/intllib.lua")
-	farming.S = intllib.Getter(minetest.get_current_modname())
+	farming_plus.S = intllib.Getter(minetest.get_current_modname())
 else
-	farming.S = function ( s ) return s end
+	farming_plus.S = function ( s ) return s end
 end
 
-function farming.add_plant(full_grown, names, interval, chance)
+function farming_plus.add_plant(full_grown, names, interval, chance)
 	minetest.register_abm({
 		nodenames = names,
 		interval = interval,
@@ -43,7 +44,7 @@ function farming.add_plant(full_grown, names, interval, chance)
 		end
 	})
 
-	table.insert(farming.registered_plants, {
+	table.insert(farming_plus.registered_plants, {
 		full_grown = full_grown,
 		names = names,
 		interval = interval,
@@ -51,7 +52,7 @@ function farming.add_plant(full_grown, names, interval, chance)
 	})
 end
 
-function farming.generate_tree(pos, trunk, leaves, underground, replacements)
+function farming_plus.generate_tree(pos, trunk, leaves, underground, replacements)
 	pos.y = pos.y-1
 	local nodename = minetest.get_node(pos).name
 	local ret = true
@@ -148,8 +149,8 @@ function farming.generate_tree(pos, trunk, leaves, underground, replacements)
 	end
 end
 
-farming.seeds = {
-	["farming:pumpkin_seed"]=60,
+farming_plus.seeds = {
+	["farming_plus:pumpkin_seed"]=60,
 	["farming_plus:strawberry_seed"]=30,
 	["farming_plus:rhubarb_seed"]=30,
 	["farming_plus:potatoe_seed"]=30,
@@ -198,9 +199,9 @@ minetest.register_on_generated(function(minp, maxp, seed)
                                                         minetest.registered_nodes[nn].buildable_to then
                                                         nn = minetest.get_node({x=x,y=ground_y,z=z}).name
                                                         if nn == "default:dirt_with_grass" then
-                                                                --local plant_choice = pr:next(1, #farming.registered_plants)
-                                                                local plant_choice = math.floor(perlin1:get2d({x=x,y=z})*(#farming.registered_plants))
-                                                                local plant = farming.registered_plants[plant_choice]
+                                                                --local plant_choice = pr:next(1, #farming_plus.registered_plants)
+                                                                local plant_choice = math.floor(perlin1:get2d({x=x,y=z})*(#farming_plus.registered_plants))
+                                                                local plant = farming_plus.registered_plants[plant_choice]
                                                                 if plant then
                                                                         minetest.set_node(p, {name=plant.full_grown})
                                                                 end
@@ -214,7 +215,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
         end
 end)
 
-function farming.place_seed(itemstack, placer, pointed_thing, plantname)
+function farming_plus.place_seed(itemstack, placer, pointed_thing, plantname)
 
 	-- Call on_rightclick if the pointed node defines it
 	if pointed_thing.type == "node" and placer and
@@ -272,30 +273,18 @@ end
 
 -- ========= ALIASES FOR FARMING MOD BY SAPIER =========
 -- potatoe -> potatoe
-minetest.register_alias("farming:potatoe_node", "farming_plus:potatoe")
---minetest.register_alias("farming:potatoe", "farming:potatoe_item") cant do this
-minetest.register_alias("farming:potatoe_straw", "farming_plus:potatoe")
-minetest.register_alias("farming:seed_potatoe", "farming_plus:potatoe_seed")
+minetest.register_alias("farming_plus:potatoe_node", "farming_plus:potatoe")
+--minetest.register_alias("farming_plus:potatoe", "farming_plus:potatoe_item") cant do this
+minetest.register_alias("farming_plus:potatoe_straw", "farming_plus:potatoe")
+minetest.register_alias("farming_plus:seed_potatoe", "farming_plus:potatoe_seed")
 for lvl = 1, 6, 1 do
-	minetest.register_entity(":farming:potatoe_lvl"..lvl, {
+	minetest.register_entity(":farming_plus:potatoe_lvl"..lvl, {
 		on_activate = function(self, staticdata)
 			minetest.set_node(self.object:getpos(), {name="farming_plus:potatoe_1"})
 		end
 	})
 end
 
-
-minetest.register_alias("farming:cotton", "farming:cotton_3")
-minetest.register_alias("farming:wheat_harvested", "farming:wheat")
-minetest.register_alias("farming:dough", "farming:flour")
-minetest.register_abm({
-	nodenames = {"farming:wheat"},
-	interval = 1,
-	chance = 1,
-	action = function(pos)
-		minetest.set_node(pos, {name="farming:wheat_8"})
-	end,
-})
 
 -- ========= STRAWBERRIES =========
 dofile(minetest.get_modpath("farming_plus").."/strawberries.lua")

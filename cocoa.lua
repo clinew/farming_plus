@@ -1,13 +1,13 @@
 -- main `S` code in init.lua
 local S
-S = farming.S
+S = farming_plus.S
 
 minetest.register_node("farming_plus:cocoa_sapling", {
 	description = S("Cocoa Tree Sapling"),
 	drawtype = "plantlike",
-	tiles = {"farming_cocoa_sapling.png"},
-	inventory_image = "farming_cocoa_sapling.png",
-	wield_image = "farming_cocoa_sapling.png",
+	tiles = {"farming_plus_cocoa_sapling.png"},
+	inventory_image = "farming_plus_cocoa_sapling.png",
+	wield_image = "farming_plus_cocoa_sapling.png",
 	paramtype = "light",
 	walkable = false,
 	selection_box = {
@@ -20,7 +20,7 @@ minetest.register_node("farming_plus:cocoa_sapling", {
 
 minetest.register_node("farming_plus:cocoa_leaves", {
 	drawtype = "allfaces_optional",
-	tiles = {"farming_banana_leaves.png"},
+	tiles = {"farming_plus_banana_leaves.png"},
 	paramtype = "light",
 	groups = {snappy=3, leafdecay=3, flammable=2, not_in_creative_inventory=1},
  	drop = {
@@ -43,7 +43,7 @@ minetest.register_abm({
 	action = function(pos, node)
 		minetest.log("action", "A cocoa sapling grows into a tree at "..
 			minetest.pos_to_string(pos))
-		farming.generate_tree(pos, "default:tree", "farming_plus:cocoa_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cocoa"]=20})
+		farming_plus.generate_tree(pos, "default:tree", "farming_plus:cocoa_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cocoa"]=20})
 	end
 })
 
@@ -61,16 +61,16 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 
 	local pos = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:dirt_with_grass"})
 	if pos ~= nil then
-		farming.generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "default:tree", "farming_plus:cocoa_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cocoa"]=20})
+		farming_plus.generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "default:tree", "farming_plus:cocoa_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cocoa"]=20})
 	end
 end)
 
 minetest.register_node("farming_plus:cocoa", {
 	description = S("Cocoa"),
-	tiles = {"farming_cocoa.png"},
+	tiles = {"farming_plus_cocoa.png"},
 	visual_scale = 0.5,
-	inventory_image = "farming_cocoa.png",
-	wield_image = "farming_cocoa.png",
+	inventory_image = "farming_plus_cocoa.png",
+	wield_image = "farming_plus_cocoa.png",
 	drawtype = "torchlike",
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -81,7 +81,7 @@ minetest.register_node("farming_plus:cocoa", {
 
 minetest.register_craftitem("farming_plus:cocoa_bean", {
 	description = "Cocoa Bean",
-	inventory_image = "farming_cocoa_bean.png",
+	inventory_image = "farming_plus_cocoa_bean.png",
 })
 
 minetest.register_craft({

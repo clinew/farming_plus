@@ -1,15 +1,15 @@
 -- main `S` code in init.lua
 local S
-S = farming.S
+S = farming_plus.S
 
-minetest.register_node(":farming:weed", {
+minetest.register_node(":farming_plus:weed", {
 	description = S("Weed"),
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
 	drawtype = "plantlike",
-	tiles = {"farming_weed.png"},
-	inventory_image = "farming_weed.png",
+	tiles = {"farming_plus_weed.png"},
+	inventory_image = "farming_plus_weed.png",
 	selection_box = {
 		type = "fixed",
 		fixed = {
@@ -26,12 +26,12 @@ minetest.register_abm({
 	chance = 100,
 	catch_up = true,
 	action = function(pos, node)
-		if minetest.find_node_near(pos, 4, {"farming:scarecrow", "farming:scarecrow_light"}) ~= nil then
+		if minetest.find_node_near(pos, 4, {"farming_plus:scarecrow", "farming_plus:scarecrow_light"}) ~= nil then
 			return
 		end
 		pos.y = pos.y+1
 		if minetest.get_node(pos).name == "air" then
-			node.name = "farming:weed"
+			node.name = "farming_plus:weed"
 			minetest.set_node(pos, node)
 		end
 	end
@@ -40,6 +40,6 @@ minetest.register_abm({
 -- ========= FUEL =========
 minetest.register_craft({
 	type = "fuel",
-	recipe = "farming:weed",
+	recipe = "farming_plus:weed",
 	burntime = 1
 })

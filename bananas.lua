@@ -1,13 +1,13 @@
 -- main `S` code in init.lua
 local S
-S = farming.S
+S = farming_plus.S
 
 minetest.register_node("farming_plus:banana_sapling", {
 	description = S("Banana Tree Sapling"),
 	drawtype = "plantlike",
-	tiles = {"farming_banana_sapling.png"},
-	inventory_image = "farming_banana_sapling.png",
-	wield_image = "farming_banana_sapling.png",
+	tiles = {"farming_plus_banana_sapling.png"},
+	inventory_image = "farming_plus_banana_sapling.png",
+	wield_image = "farming_plus_banana_sapling.png",
 	paramtype = "light",
 	walkable = false,
 	selection_box = {
@@ -20,7 +20,7 @@ minetest.register_node("farming_plus:banana_sapling", {
 
 minetest.register_node("farming_plus:banana_leaves", {
 	drawtype = "allfaces_optional",
-	tiles = {"farming_banana_leaves.png"},
+	tiles = {"farming_plus_banana_leaves.png"},
 	paramtype = "light",
 	groups = {snappy=3, leafdecay=3, flammable=2, not_in_creative_inventory=1},
  	drop = {
@@ -43,7 +43,7 @@ minetest.register_abm({
 	action = function(pos, node)
 		minetest.log("action", "A banana sapling grows into a tree at "..
 			minetest.pos_to_string(pos))
-		farming.generate_tree(pos, "default:tree", "farming_plus:banana_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=20})
+		farming_plus.generate_tree(pos, "default:tree", "farming_plus:banana_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=20})
 	end
 })
 
@@ -63,15 +63,15 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 
 	local pos = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:dirt_with_grass"})
 	if pos ~= nil then
-		farming.generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "default:tree", "farming_plus:banana_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=10})
+		farming_plus.generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "default:tree", "farming_plus:banana_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=10})
 	end
 end)
 
 minetest.register_node("farming_plus:banana", {
 	description = S("Banana"),
-	tiles = {"farming_banana.png"},
-	inventory_image = "farming_banana.png",
-	wield_image = "farming_banana.png",
+	tiles = {"farming_plus_banana.png"},
+	inventory_image = "farming_plus_banana.png",
+	wield_image = "farming_plus_banana.png",
 	drawtype = "torchlike",
 	paramtype = "light",
 	sunlight_propagates = true,

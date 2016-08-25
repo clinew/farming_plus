@@ -1,15 +1,15 @@
 -- main `S` code in init.lua
 local S
-S = farming.S
+S = farming_plus.S
 
 ----
 
 minetest.register_node("farming_plus:orange_sapling", {
 	description = S("Orange Tree Sapling"),
 	drawtype = "plantlike",
-	tiles = {"farming_orange_sapling.png"},
-	inventory_image = "farming_orange_sapling.png",
-	wield_image = "farming_orange_sapling.png",
+	tiles = {"farming_plus_orange_sapling.png"},
+	inventory_image = "farming_plus_orange_sapling.png",
+	wield_image = "farming_plus_orange_sapling.png",
 	paramtype = "light",
 	walkable = false,
 	selection_box = {
@@ -45,7 +45,7 @@ minetest.register_abm({
 	action = function(pos, node)
 		minetest.log("action", "An orange sapling grows into a tree at "..
 			minetest.pos_to_string(pos))
-		farming.generate_tree(pos, "default:tree", "default:leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=20})
+		farming_plus.generate_tree(pos, "default:tree", "default:leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=20})
 	end
 })
 
@@ -63,15 +63,15 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 	end
 
 	if pos ~= nil then
-		farming.generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "default:tree", "farming_plus:orange_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=10})
+		farming_plus.generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "default:tree", "farming_plus:orange_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=10})
 	end
 end)
 
 minetest.register_node("farming_plus:orange", {
 	description = S("Orange"),
-	tiles = {"farming_orange.png"},
-	inventory_image = "farming_orange.png",
-	wield_image = "farming_orange.png",
+	tiles = {"farming_plus_orange.png"},
+	inventory_image = "farming_plus_orange.png",
+	wield_image = "farming_plus_orange.png",
 	drawtype = "plantlike",
 	paramtype = "light",
 	sunlight_propagates = true,

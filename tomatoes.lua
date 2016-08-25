@@ -1,12 +1,12 @@
 -- main `S` code in init.lua
 local S
-S = farming.S
+S = farming_plus.S
 
 minetest.register_craftitem("farming_plus:tomato_seed", {
 	description = S("Tomato Seeds"),
-	inventory_image = "farming_tomato_seed.png",
+	inventory_image = "farming_plus_tomato_seed.png",
 	on_place = function(itemstack, placer, pointed_thing)
-		return farming.place_seed(itemstack, placer, pointed_thing, "farming_plus:tomato_1")
+		return farming_plus.place_seed(itemstack, placer, pointed_thing, "farming_plus:tomato_1")
 	end
 })
 
@@ -15,7 +15,7 @@ minetest.register_node("farming_plus:tomato_1", {
 	walkable = false,
 	drawtype = "plantlike",
 	drop = "",
-	tiles = {"farming_tomato_1.png"},
+	tiles = {"farming_plus_tomato_1.png"},
 	selection_box = {
 		type = "fixed",
 		fixed = {
@@ -31,7 +31,7 @@ minetest.register_node("farming_plus:tomato_2", {
 	walkable = false,
 	drawtype = "plantlike",
 	drop = "",
-	tiles = {"farming_tomato_2.png"},
+	tiles = {"farming_plus_tomato_2.png"},
 	selection_box = {
 		type = "fixed",
 		fixed = {
@@ -47,7 +47,7 @@ minetest.register_node("farming_plus:tomato_3", {
 	walkable = false,
 	drawtype = "plantlike",
 	drop = "",
-	tiles = {"farming_tomato_3.png"},
+	tiles = {"farming_plus_tomato_3.png"},
 	selection_box = {
 		type = "fixed",
 		fixed = {
@@ -62,7 +62,7 @@ minetest.register_node("farming_plus:tomato", {
 	paramtype = "light",
 	walkable = false,
 	drawtype = "plantlike",
-	tiles = {"farming_tomato_4.png"},
+	tiles = {"farming_plus_tomato_4.png"},
 	drop = {
 		max_items = 6,
 		items = {
@@ -80,8 +80,8 @@ minetest.register_node("farming_plus:tomato", {
 
 minetest.register_craftitem("farming_plus:tomato_item", {
 	description = S("Tomato"),
-	inventory_image = "farming_tomato.png",
+	inventory_image = "farming_plus_tomato.png",
 	on_use = minetest.item_eat(2),
 })
 
-farming.add_plant("farming_plus:tomato", {"farming_plus:tomato_1", "farming_plus:tomato_2", "farming_plus:tomato_3"}, 50, 20)
+farming_plus.add_plant("farming_plus:tomato", {"farming_plus:tomato_1", "farming_plus:tomato_2", "farming_plus:tomato_3"}, 50, 20)

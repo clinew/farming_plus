@@ -1,12 +1,12 @@
 -- main `S` code in init.lua
 local S
-S = farming.S
+S = farming_plus.S
 
 minetest.register_craftitem("farming_plus:rhubarb_seed", {
 	description = S("Rhubarb Seeds"),
-	inventory_image = "farming_rhubarb_seed.png",
+	inventory_image = "farming_plus_rhubarb_seed.png",
 	on_place = function(itemstack, placer, pointed_thing)
-		return farming.place_seed(itemstack, placer, pointed_thing, "farming_plus:rhubarb_1")
+		return farming_plus.place_seed(itemstack, placer, pointed_thing, "farming_plus:rhubarb_1")
 	end
 })
 
@@ -15,7 +15,7 @@ minetest.register_node("farming_plus:rhubarb_1", {
 	walkable = false,
 	drawtype = "plantlike",
 	drop = "",
-	tiles = {"farming_rhubarb_1.png"},
+	tiles = {"farming_plus_rhubarb_1.png"},
 	selection_box = {
 		type = "fixed",
 		fixed = {
@@ -31,7 +31,7 @@ minetest.register_node("farming_plus:rhubarb_2", {
 	walkable = false,
 	drawtype = "plantlike",
 	drop = "",
-	tiles = {"farming_rhubarb_2.png"},
+	tiles = {"farming_plus_rhubarb_2.png"},
 	selection_box = {
 		type = "fixed",
 		fixed = {
@@ -46,7 +46,7 @@ minetest.register_node("farming_plus:rhubarb", {
 	paramtype = "light",
 	walkable = false,
 	drawtype = "plantlike",
-	tiles = {"farming_rhubarb_3.png"},
+	tiles = {"farming_plus_rhubarb_3.png"},
 	drop = {
 		max_items = 6,
 		items = {
@@ -64,7 +64,7 @@ minetest.register_node("farming_plus:rhubarb", {
 
 minetest.register_craftitem("farming_plus:rhubarb_item", {
 	description = S("Rhubarb"),
-	inventory_image = "farming_rhubarb.png",
+	inventory_image = "farming_plus_rhubarb.png",
 })
 
-farming.add_plant("farming_plus:rhubarb", {"farming_plus:rhubarb_1", "farming_plus:rhubarb_2"}, 50, 20)
+farming_plus.add_plant("farming_plus:rhubarb", {"farming_plus:rhubarb_1", "farming_plus:rhubarb_2"}, 50, 20)
