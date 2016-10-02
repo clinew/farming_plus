@@ -45,7 +45,7 @@ minetest.register_abm({
 	action = function(pos, node)
 		minetest.log("action", "An orange sapling grows into a tree at "..
 			minetest.pos_to_string(pos))
-		farming_plus.generate_tree(pos, "default:tree", "default:leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=20})
+		farming_plus.generate_tree(pos, "default:tree", "farming_plus:orange_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=20})
 	end
 })
 
