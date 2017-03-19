@@ -285,33 +285,35 @@ for lvl = 1, 6, 1 do
 	})
 end
 
-
--- ========= STRAWBERRIES =========
-dofile(minetest.get_modpath("farming_plus").."/strawberries.lua")
-
--- ========= RHUBARB =========
-dofile(minetest.get_modpath("farming_plus").."/rhubarb.lua")
-
--- ========= POTATOES =========
-dofile(minetest.get_modpath("farming_plus").."/potatoes.lua")
-
--- ========= TOMATOES =========
-dofile(minetest.get_modpath("farming_plus").."/tomatoes.lua")
-
--- ========= ORANGES =========
-dofile(minetest.get_modpath("farming_plus").."/oranges.lua")
-
 -- ========= BANANAS =========
 dofile(minetest.get_modpath("farming_plus").."/bananas.lua")
 
 -- ========= CARROTS =========
 dofile(minetest.get_modpath("farming_plus").."/carrots.lua")
+--
+-- ========= CHERRY =========
+dofile(minetest.get_modpath("farming_plus").."/cherries.lua")
 
 -- ========= COCOA =========
 dofile(minetest.get_modpath("farming_plus").."/cocoa.lua")
 
+-- ========= ORANGES =========
+dofile(minetest.get_modpath("farming_plus").."/oranges.lua")
+
+-- ========= POTATOES =========
+dofile(minetest.get_modpath("farming_plus").."/potatoes.lua")
+
 -- ========= PUMPKIN =========
 dofile(minetest.get_modpath("farming_plus").."/pumpkin.lua")
+
+-- ========= RHUBARB =========
+dofile(minetest.get_modpath("farming_plus").."/rhubarb.lua")
+
+-- ========= STRAWBERRIES =========
+dofile(minetest.get_modpath("farming_plus").."/strawberries.lua")
+
+-- ========= TOMATOES =========
+dofile(minetest.get_modpath("farming_plus").."/tomatoes.lua")
 
 -- ========= WEED =========
 dofile(minetest.get_modpath("farming_plus").."/weed.lua")
