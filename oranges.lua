@@ -16,7 +16,8 @@ minetest.register_node("farming_plus:orange_sapling", {
 		type = "fixed",
 		fixed = {-0.3, -0.5, -0.3, 0.3, 0.35, 0.3}
 	},
-	groups = {dig_immediate=3,flammable=2},
+	groups = {snappy = 2, dig_immediate=3,flammable=2, 
+                attached_node = 1, sapling = 1},
 	sounds = default.node_sound_defaults(),
 })
 
@@ -45,7 +46,9 @@ minetest.register_abm({
 	action = function(pos, node)
 		minetest.log("action", "An orange sapling grows into a tree at "..
 			minetest.pos_to_string(pos))
-		farming_plus.generate_tree(pos, "default:tree", "farming_plus:orange_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=20})
+                if minetest.get_node_light(pos) > 12 then
+                  farming_plus.generate_tree(pos, "default:tree", "default:leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=20})
+                end
 	end
 })
 
