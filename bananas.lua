@@ -41,6 +41,9 @@ minetest.register_abm({
 	chance = 20,
 	catch_up = true,
 	action = function(pos, node)
+		if minetest.get_node_light(pos) < 13 then
+			return
+		end
 		minetest.log("action", "A banana sapling grows into a tree at "..
 			minetest.pos_to_string(pos))
 		farming_plus.generate_tree(pos, "default:tree", "farming_plus:banana_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=20})
