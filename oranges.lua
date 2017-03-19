@@ -16,7 +16,8 @@ minetest.register_node("farming_plus:orange_sapling", {
 		type = "fixed",
 		fixed = {-0.3, -0.5, -0.3, 0.3, 0.35, 0.3}
 	},
-	groups = {snappy = 2, dig_immediate=3,flammable=2 attached_node = 1, sapling = 1},
+	groups = {snappy = 2, dig_immediate=3,flammable=2, 
+                attached_node = 1, sapling = 1},
 	sounds = default.node_sound_defaults(),
 })
 
