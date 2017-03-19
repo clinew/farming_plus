@@ -5,7 +5,7 @@ S = farming_plus.S
 ----
 
 minetest.register_node("farming_plus:cherry_sapling", {
-	description = S("cherry Tree Sapling"),
+	description = S("Cherry Tree Sapling"),
 	drawtype = "plantlike",
 	tiles = {"farming_plus_cherry_sapling.png"},
 	inventory_image = "farming_plus_cherry_sapling.png",
@@ -18,6 +18,8 @@ minetest.register_node("farming_plus:cherry_sapling", {
 	},
 	groups = {dig_immediate=3,flammable=2},
 	sounds = default.node_sound_defaults(),
+        minlight = 13,
+        maxlight = 14,
 })
 
 minetest.register_node("farming_plus:cherry_leaves", {
@@ -43,9 +45,11 @@ minetest.register_abm({
 	chance = 20,
 	catch_up = true,
 	action = function(pos, node)
-		minetest.log("action", "An cherry sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		farming_plus.generate_tree(pos, "default:tree", "farming_plus:cherry_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cherry"]=20})
+		minetest.log("action", "A cherry sapling grows into a tree at "..
+			minetest.pos_to_string(pos).." light: "..minetest.get_node_light(pos))
+                if minetest.get_node_light(pos) > 12 then
+                  farming_plus.generate_tree(pos, "default:tree", "farming_plus:cherry_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cherry"]=20})
+                end
 	end
 })
 
@@ -61,6 +65,7 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 	if forest == nil then
 		return
 	end
+
 
 	if pos ~= nil then
 		farming_plus.generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "default:tree", "farming_plus:cherry_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cherry"]=10})
