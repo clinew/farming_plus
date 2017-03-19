@@ -27,7 +27,7 @@ minetest.register_node("farming_plus:cherry_leaves", {
 	tiles = {"default_leaves.png"},
 	paramtype = "light",
 	groups = {snappy=3, leafdecay=3, flammable=2, not_in_creative_inventory=1},
- 	drop = {
+	drop = {
 		max_items = 1,
 		items = {
 			{
@@ -73,7 +73,7 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 end)
 
 minetest.register_node("farming_plus:cherry", {
-	description = S("cherry"),
+	description = S("Cherry"),
 	tiles = {"farming_plus_cherry.png"},
 	inventory_image = "farming_plus_cherry.png",
 	wield_image = "farming_plus_cherry.png",
@@ -83,6 +83,5 @@ minetest.register_node("farming_plus:cherry", {
 	walkable = false,
 	groups = {fleshy=3,dig_immediate=3,flammable=2,leafdecay=3,leafdecay_drop=1},
 	sounds = default.node_sound_defaults(),
-	
 	on_use = minetest.item_eat(2),
 })
