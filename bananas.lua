@@ -85,3 +85,25 @@ minetest.register_node("farming_plus:banana", {
 	
 	on_use = minetest.item_eat(2),
 })
+
+farming_plus.add_tree("banana",
+	function(minp, maxp, blockseed)
+		local tmp = {x=(maxp.x-minp.x)/2+minp.x, y=(maxp.y-minp.y)/2+minp.y, z=(maxp.z-minp.z)/2+minp.z}
+
+		-- Evil hack: I can't figure out how to tell whether we're in a jungle
+		-- biome, but if there are no jungle tree around then we probably
+		-- aren't.
+		local jungle = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:jungletree"})
+		if jungle == nil then
+			return nil
+		end
+		local node = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:dirt_with_grass"})
+		if node == nil then
+			return nil
+		end
+		local pos = {x=node.x, y=node.y+1, z=node.z}
+		farming_plus.generate_tree(pos, "default:tree", "farming_plus:banana_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=10})
+		return pos
+	end,
+	17
+)

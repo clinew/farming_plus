@@ -54,24 +54,6 @@ minetest.register_abm({
 	end
 })
 
-minetest.register_on_generated(function(minp, maxp, blockseed)
-	if math.random(1, 100) > 3 then
-		return
-	end
-	local tmp = {x=(maxp.x-minp.x)/2+minp.x, y=(maxp.y-minp.y)/2+minp.y, z=(maxp.z-minp.z)/2+minp.z}
-	local pos = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:dirt_with_grass"})
-
-	-- See corresponding function in 'bananas.lua'
-	local forest = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:tree"})
-	if forest == nil then
-		return
-	end
-
-	if pos ~= nil then
-		farming_plus.generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "default:tree", "farming_plus:orange_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=10})
-	end
-end)
-
 minetest.register_node("farming_plus:orange", {
 	description = S("Orange"),
 	tiles = {"farming_plus_orange.png"},
@@ -86,3 +68,24 @@ minetest.register_node("farming_plus:orange", {
 	
 	on_use = minetest.item_eat(2),
 })
+
+farming_plus.add_tree("orange",
+	function(minp, maxp, blockseed)
+		local tmp = {x=(maxp.x-minp.x)/2+minp.x, y=(maxp.y-minp.y)/2+minp.y, z=(maxp.z-minp.z)/2+minp.z}
+
+		-- See corresponding function in 'bananas.lua'
+		local forest = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:tree"})
+		if forest == nil then
+			return nil
+		end
+
+		local node = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:dirt_with_grass"})
+		if node == nil then
+			return nil
+		end
+		local pos = {x=node.x, y=node.y+1, z=node.z}
+		farming_plus.generate_tree(pos, "default:tree", "farming_plus:orange_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=10})
+		return pos
+	end,
+	3
+)

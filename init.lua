@@ -1,5 +1,6 @@
 farming_plus = {}
 farming_plus.registered_plants = {}
+farming_plus.registered_trees = {}
 
 -- Boilerplate to support localized strings if intllib mod is installed.
 if (minetest.get_modpath("intllib")) then
@@ -49,6 +50,17 @@ function farming_plus.add_plant(full_grown, names, interval, chance)
 		names = names,
 		interval = interval,
 		chance = chance,
+	})
+end
+
+-- Register tree-generation functions.
+-- The 'generator' function returns either 'nil' if the tree is not generated
+-- or it returns the position where the tree was generated at.
+function farming_plus.add_tree(name, generator, rarity)
+	table.insert(farming_plus.registered_trees, {
+		name = name,
+		generator = generator,
+		rarity = rarity,
 	})
 end
 
@@ -213,6 +225,30 @@ minetest.register_on_generated(function(minp, maxp, seed)
                 end
                 end
         end
+end)
+
+-- Generate trees in the map.
+minetest.register_on_generated(function(minp, maxp, seed)
+	-- Build list of possible rare trees to spawn, based on their rarity.
+	local roll = math.random(1, 100)
+	local trees = {}
+	for i = 1, #farming_plus.registered_trees do
+		if roll <= farming_plus.registered_trees[i].rarity then
+			table.insert(trees, farming_plus.registered_trees[i])
+		end
+	end
+	if next(trees) == nil then
+		-- No rare trees this time.
+		return
+	end
+
+	-- Randomly select a rare tree.
+	local tree_index = math.random(1, #trees)
+	local tree = trees[tree_index]
+	local ret = tree.generator(minp, maxp, seed)
+	if ret ~= nil then
+		minetest.log("Generated rare '"..tree.name.."' tree at '"..minetest.pos_to_string(ret).."'")
+	end
 end)
 
 function farming_plus.place_seed(itemstack, placer, pointed_thing, plantname)
