@@ -38,6 +38,20 @@ minetest.register_node("farming_plus:cherry_leaves", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
+minetest.register_node("farming_plus:cherry", {
+	description = S("Cherry"),
+	tiles = {"farming_plus_cherry.png"},
+	inventory_image = "farming_plus_cherry.png",
+	wield_image = "farming_plus_cherry.png",
+	drawtype = "plantlike",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {fleshy=3,dig_immediate=3,flammable=2,leafdecay=3,leafdecay_drop=1},
+	sounds = default.node_sound_defaults(),
+	on_use = minetest.item_eat(2),
+})
+
 minetest.register_abm({
 	nodenames = {"farming_plus:cherry_sapling"},
 	interval = 60,
@@ -53,18 +67,10 @@ minetest.register_abm({
 	end
 })
 
-minetest.register_node("farming_plus:cherry", {
-	description = S("Cherry"),
-	tiles = {"farming_plus_cherry.png"},
-	inventory_image = "farming_plus_cherry.png",
-	wield_image = "farming_plus_cherry.png",
-	drawtype = "plantlike",
-	paramtype = "light",
-	sunlight_propagates = true,
-	walkable = false,
-	groups = {fleshy=3,dig_immediate=3,flammable=2,leafdecay=3,leafdecay_drop=1},
-	sounds = default.node_sound_defaults(),
-	on_use = minetest.item_eat(2),
+default.register_leafdecay({
+	trunks = {"default:tree"},
+	leaves = {"farming_plus:cherry_leaves", "farming_plus:cherry"},
+	radius = 2,
 })
 
 farming_plus.add_tree("cherry",

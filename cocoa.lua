@@ -36,6 +36,20 @@ minetest.register_node("farming_plus:cocoa_leaves", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
+minetest.register_node("farming_plus:cocoa", {
+	description = S("Cocoa"),
+	tiles = {"farming_plus_cocoa.png"},
+	visual_scale = 0.5,
+	inventory_image = "farming_plus_cocoa.png",
+	wield_image = "farming_plus_cocoa.png",
+	drawtype = "torchlike",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {fleshy=3,dig_immediate=3,flammable=2,leafdecay=3,leafdecay_drop=1},
+	sounds = default.node_sound_defaults(),
+})
+
 minetest.register_abm({
 	nodenames = {"farming_plus:cocoa_sapling"},
 	interval = 60,
@@ -51,19 +65,11 @@ minetest.register_abm({
 	end
 })
 
-minetest.register_node("farming_plus:cocoa", {
-	description = S("Cocoa"),
-	tiles = {"farming_plus_cocoa.png"},
-	visual_scale = 0.5,
-	inventory_image = "farming_plus_cocoa.png",
-	wield_image = "farming_plus_cocoa.png",
-	drawtype = "torchlike",
-	paramtype = "light",
-	sunlight_propagates = true,
-	walkable = false,
-	groups = {fleshy=3,dig_immediate=3,flammable=2,leafdecay=3,leafdecay_drop=1},
-	sounds = default.node_sound_defaults(),
-})
+--default.register_leafdecay({
+--	trunks = {"default:tree"},
+--	leaves = {"farming_plus:cocoa_leaves", "farming_plus:cocoa"},
+--	radius = 2,
+--})
 
 minetest.register_craftitem("farming_plus:cocoa_bean", {
 	description = "Cocoa Bean",

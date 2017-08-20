@@ -36,6 +36,21 @@ minetest.register_node("farming_plus:banana_leaves", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
+minetest.register_node("farming_plus:banana", {
+	description = S("Banana"),
+	tiles = {"farming_plus_banana.png"},
+	inventory_image = "farming_plus_banana.png",
+	wield_image = "farming_plus_banana.png",
+	drawtype = "torchlike",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {fleshy=3,dig_immediate=3,flammable=2,leafdecay=3,leafdecay_drop=1},
+	sounds = default.node_sound_defaults(),
+
+	on_use = minetest.item_eat(2),
+})
+
 minetest.register_abm({
 	nodenames = {"farming_plus:banana_sapling"},
 	interval = 60,
@@ -50,6 +65,12 @@ minetest.register_abm({
 		farming_plus.generate_tree(pos, "default:tree", "farming_plus:banana_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=20})
 	end
 })
+
+--default.register_leafdecay({
+--	trunks = {"default:tree"},
+--	leaves = {"farming_plus:banana_leaves", "farming_plus:banana"},
+--	radius = 2,
+--})
 
 minetest.register_on_generated(function(minp, maxp, blockseed)
 	if math.random(1, 100) > 17 then
@@ -70,21 +91,6 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 		farming_plus.generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "default:tree", "farming_plus:banana_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=10})
 	end
 end)
-
-minetest.register_node("farming_plus:banana", {
-	description = S("Banana"),
-	tiles = {"farming_plus_banana.png"},
-	inventory_image = "farming_plus_banana.png",
-	wield_image = "farming_plus_banana.png",
-	drawtype = "torchlike",
-	paramtype = "light",
-	sunlight_propagates = true,
-	walkable = false,
-	groups = {fleshy=3,dig_immediate=3,flammable=2,leafdecay=3,leafdecay_drop=1},
-	sounds = default.node_sound_defaults(),
-	
-	on_use = minetest.item_eat(2),
-})
 
 farming_plus.add_tree("banana",
 	function(minp, maxp, blockseed)

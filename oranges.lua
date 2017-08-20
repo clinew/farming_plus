@@ -38,6 +38,21 @@ minetest.register_node("farming_plus:orange_leaves", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
+minetest.register_node("farming_plus:orange", {
+	description = S("Orange"),
+	tiles = {"farming_plus_orange.png"},
+	inventory_image = "farming_plus_orange.png",
+	wield_image = "farming_plus_orange.png",
+	drawtype = "plantlike",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {fleshy=3,dig_immediate=3,flammable=2,leafdecay=3,leafdecay_drop=1},
+	sounds = default.node_sound_defaults(),
+
+	on_use = minetest.item_eat(2),
+})
+
 minetest.register_abm({
 	nodenames = {"farming_plus:orange_sapling"},
 	interval = 60,
@@ -54,20 +69,11 @@ minetest.register_abm({
 	end
 })
 
-minetest.register_node("farming_plus:orange", {
-	description = S("Orange"),
-	tiles = {"farming_plus_orange.png"},
-	inventory_image = "farming_plus_orange.png",
-	wield_image = "farming_plus_orange.png",
-	drawtype = "plantlike",
-	paramtype = "light",
-	sunlight_propagates = true,
-	walkable = false,
-	groups = {fleshy=3,dig_immediate=3,flammable=2,leafdecay=3,leafdecay_drop=1},
-	sounds = default.node_sound_defaults(),
-	
-	on_use = minetest.item_eat(2),
-})
+--default.register_leafdecay({
+--	trunks = {"default:tree"},
+--	leaves = {"farming_plus:orange_leaves", "farming_plus:orange"},
+--	radius = 2,
+--})
 
 farming_plus.add_tree("orange",
 	function(minp, maxp, blockseed)
