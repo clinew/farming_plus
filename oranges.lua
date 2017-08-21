@@ -21,6 +21,11 @@ minetest.register_node("farming_plus:orange_sapling", {
 	sounds = default.node_sound_defaults(),
 })
 
+local orange_tree = table.copy(minetest.registered_nodes["default:tree"])
+orange_tree.description = "Orange Tree"
+orange_tree.drop = "default:tree"
+minetest.register_node("farming_plus:orange_tree", orange_tree)
+
 minetest.register_node("farming_plus:orange_leaves", {
 	drawtype = "allfaces_optional",
 	tiles = {"default_leaves.png"},
@@ -38,6 +43,21 @@ minetest.register_node("farming_plus:orange_leaves", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
+minetest.register_node("farming_plus:orange", {
+	description = S("Orange"),
+	tiles = {"farming_plus_orange.png"},
+	inventory_image = "farming_plus_orange.png",
+	wield_image = "farming_plus_orange.png",
+	drawtype = "plantlike",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {fleshy=3,dig_immediate=3,flammable=2,leafdecay=3,leafdecay_drop=1},
+	sounds = default.node_sound_defaults(),
+
+	on_use = minetest.item_eat(2),
+})
+
 minetest.register_abm({
 	nodenames = {"farming_plus:orange_sapling"},
 	interval = 60,
@@ -50,23 +70,14 @@ minetest.register_abm({
 
 		minetest.log("action", "An orange sapling grows into a tree at "..
 			minetest.pos_to_string(pos))
-		farming_plus.generate_tree(pos, "default:tree", "farming_plus:orange_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=20})
+		farming_plus.generate_tree(pos, "farming_plus:orange_tree", "farming_plus:orange_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=20})
 	end
 })
 
-minetest.register_node("farming_plus:orange", {
-	description = S("Orange"),
-	tiles = {"farming_plus_orange.png"},
-	inventory_image = "farming_plus_orange.png",
-	wield_image = "farming_plus_orange.png",
-	drawtype = "plantlike",
-	paramtype = "light",
-	sunlight_propagates = true,
-	walkable = false,
-	groups = {fleshy=3,dig_immediate=3,flammable=2,leafdecay=3,leafdecay_drop=1},
-	sounds = default.node_sound_defaults(),
-	
-	on_use = minetest.item_eat(2),
+default.register_leafdecay({
+	trunks = {"farming_plus:orange_tree"},
+	leaves = {"farming_plus:orange_leaves", "farming_plus:orange"},
+	radius = 2,
 })
 
 farming_plus.add_tree("orange",
@@ -84,7 +95,7 @@ farming_plus.add_tree("orange",
 			return nil
 		end
 		local pos = {x=node.x, y=node.y+1, z=node.z}
-		farming_plus.generate_tree(pos, "default:tree", "farming_plus:orange_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=10})
+		farming_plus.generate_tree(pos, "farming_plus:orange_tree", "farming_plus:orange_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=10})
 		return pos
 	end,
 	3

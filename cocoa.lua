@@ -19,6 +19,11 @@ minetest.register_node("farming_plus:cocoa_sapling", {
 	sounds = default.node_sound_defaults(),
 })
 
+local cocoa_tree = table.copy(minetest.registered_nodes["default:tree"])
+cocoa_tree.description = "Cocoa Tree"
+cocoa_tree.drop = "default:tree"
+minetest.register_node("farming_plus:cocoa_tree", cocoa_tree)
+
 minetest.register_node("farming_plus:cocoa_leaves", {
 	drawtype = "allfaces_optional",
 	tiles = {"farming_plus_banana_leaves.png"},
@@ -36,21 +41,6 @@ minetest.register_node("farming_plus:cocoa_leaves", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_abm({
-	nodenames = {"farming_plus:cocoa_sapling"},
-	interval = 60,
-	chance = 20,
-	catch_up = true,
-	action = function(pos, node)
-		if minetest.get_node_light(pos) < 13 then
-			return
-		end
-		minetest.log("action", "A cocoa sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		farming_plus.generate_tree(pos, "default:tree", "farming_plus:cocoa_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cocoa"]=20})
-	end
-})
-
 minetest.register_node("farming_plus:cocoa", {
 	description = S("Cocoa"),
 	tiles = {"farming_plus_cocoa.png"},
@@ -63,6 +53,27 @@ minetest.register_node("farming_plus:cocoa", {
 	walkable = false,
 	groups = {fleshy=3,dig_immediate=3,flammable=2,leafdecay=3,leafdecay_drop=1},
 	sounds = default.node_sound_defaults(),
+})
+
+minetest.register_abm({
+	nodenames = {"farming_plus:cocoa_sapling"},
+	interval = 60,
+	chance = 20,
+	catch_up = true,
+	action = function(pos, node)
+		if minetest.get_node_light(pos) < 13 then
+			return
+		end
+		minetest.log("action", "A cocoa sapling grows into a tree at "..
+			minetest.pos_to_string(pos))
+		farming_plus.generate_tree(pos, "farming_plus:cocoa_tree", "farming_plus:cocoa_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cocoa"]=20})
+	end
+})
+
+default.register_leafdecay({
+	trunks = {"farming_plus:cocoa_tree"},
+	leaves = {"farming_plus:cocoa_leaves", "farming_plus:cocoa"},
+	radius = 2,
 })
 
 minetest.register_craftitem("farming_plus:cocoa_bean", {
@@ -91,7 +102,7 @@ farming_plus.add_tree("cocoa",
 			return nil
 		end
 		local pos = {x=node.x, y=node.y+1, z=node.z}
-		farming_plus.generate_tree(pos, "default:tree", "farming_plus:cocoa_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cocoa"]=20})
+		farming_plus.generate_tree(pos, "farming_plus:cocoa_tree", "farming_plus:cocoa_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cocoa"]=20})
 		return pos
 	end,
 	17

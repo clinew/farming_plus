@@ -21,6 +21,11 @@ minetest.register_node("farming_plus:cherry_sapling", {
 	sounds = default.node_sound_defaults(),
 })
 
+local cherry_tree = table.copy(minetest.registered_nodes["default:tree"])
+cherry_tree.description = "Cherry Tree"
+cherry_tree.drop = "default:tree"
+minetest.register_node("farming_plus:cherry_tree", cherry_tree)
+
 minetest.register_node("farming_plus:cherry_leaves", {
 	drawtype = "allfaces_optional",
 	tiles = {"default_leaves.png"},
@@ -38,21 +43,6 @@ minetest.register_node("farming_plus:cherry_leaves", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_abm({
-	nodenames = {"farming_plus:cherry_sapling"},
-	interval = 60,
-	chance = 20,
-	catch_up = true,
-	action = function(pos, node)
-		if minetest.get_node_light(pos) < 13 then
-			return
-		end
-		minetest.log("action", "A cherry sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		farming_plus.generate_tree(pos, "default:tree", "farming_plus:cherry_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cherry"]=20})
-	end
-})
-
 minetest.register_node("farming_plus:cherry", {
 	description = S("Cherry"),
 	tiles = {"farming_plus_cherry.png"},
@@ -65,6 +55,27 @@ minetest.register_node("farming_plus:cherry", {
 	groups = {fleshy=3,dig_immediate=3,flammable=2,leafdecay=3,leafdecay_drop=1},
 	sounds = default.node_sound_defaults(),
 	on_use = minetest.item_eat(2),
+})
+
+minetest.register_abm({
+	nodenames = {"farming_plus:cherry_sapling"},
+	interval = 60,
+	chance = 20,
+	catch_up = true,
+	action = function(pos, node)
+		if minetest.get_node_light(pos) < 13 then
+			return
+		end
+		minetest.log("action", "A cherry sapling grows into a tree at "..
+			minetest.pos_to_string(pos))
+		farming_plus.generate_tree(pos, "farming_plus:cherry_tree", "farming_plus:cherry_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cherry"]=20})
+	end
+})
+
+default.register_leafdecay({
+	trunks = {"farming_plus:cherry_tree"},
+	leaves = {"farming_plus:cherry_leaves", "farming_plus:cherry"},
+	radius = 2,
 })
 
 farming_plus.add_tree("cherry",
@@ -82,7 +93,7 @@ farming_plus.add_tree("cherry",
 			return nil
 		end
 		local pos = {x=node.x, y=node.y+1, z=node.z}
-		farming_plus.generate_tree(pos, "default:tree", "farming_plus:cherry_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cherry"]=10})
+		farming_plus.generate_tree(pos, "farming_plus:cherry_tree", "farming_plus:cherry_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:cherry"]=10})
 		return pos
 	end,
 	3
