@@ -21,6 +21,11 @@ minetest.register_node("farming_plus:orange_sapling", {
 	sounds = default.node_sound_defaults(),
 })
 
+local orange_tree = table.copy(minetest.registered_nodes["default:tree"])
+orange_tree.description = "Orange Tree"
+orange_tree.drop = "default:tree"
+minetest.register_node("farming_plus:orange_tree", orange_tree)
+
 minetest.register_node("farming_plus:orange_leaves", {
 	drawtype = "allfaces_optional",
 	tiles = {"default_leaves.png"},
@@ -65,15 +70,15 @@ minetest.register_abm({
 
 		minetest.log("action", "An orange sapling grows into a tree at "..
 			minetest.pos_to_string(pos))
-		farming_plus.generate_tree(pos, "default:tree", "farming_plus:orange_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=20})
+		farming_plus.generate_tree(pos, "farming_plus:orange_tree", "farming_plus:orange_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=20})
 	end
 })
 
---default.register_leafdecay({
---	trunks = {"default:tree"},
---	leaves = {"farming_plus:orange_leaves", "farming_plus:orange"},
---	radius = 2,
---})
+default.register_leafdecay({
+	trunks = {"farming_plus:orange_tree"},
+	leaves = {"farming_plus:orange_leaves", "farming_plus:orange"},
+	radius = 2,
+})
 
 farming_plus.add_tree("orange",
 	function(minp, maxp, blockseed)
@@ -90,7 +95,7 @@ farming_plus.add_tree("orange",
 			return nil
 		end
 		local pos = {x=node.x, y=node.y+1, z=node.z}
-		farming_plus.generate_tree(pos, "default:tree", "farming_plus:orange_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=10})
+		farming_plus.generate_tree(pos, "farming_plus:orange_tree", "farming_plus:orange_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:orange"]=10})
 		return pos
 	end,
 	3

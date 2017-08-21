@@ -19,6 +19,11 @@ minetest.register_node("farming_plus:banana_sapling", {
 	sounds = default.node_sound_defaults(),
 })
 
+local banana_tree = table.copy(minetest.registered_nodes["default:tree"])
+banana_tree.description = "Banana Tree"
+banana_tree.drop = "default:tree"
+minetest.register_node("farming_plus:banana_tree", banana_tree)
+
 minetest.register_node("farming_plus:banana_leaves", {
 	drawtype = "allfaces_optional",
 	tiles = {"farming_plus_banana_leaves.png"},
@@ -62,15 +67,15 @@ minetest.register_abm({
 		end
 		minetest.log("action", "A banana sapling grows into a tree at "..
 			minetest.pos_to_string(pos))
-		farming_plus.generate_tree(pos, "default:tree", "farming_plus:banana_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=20})
+		farming_plus.generate_tree(pos, "farming_plus:banana_tree", "farming_plus:banana_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=20})
 	end
 })
 
---default.register_leafdecay({
---	trunks = {"default:tree"},
---	leaves = {"farming_plus:banana_leaves", "farming_plus:banana"},
---	radius = 2,
---})
+default.register_leafdecay({
+	trunks = {"farming_plus:banana_tree"},
+	leaves = {"farming_plus:banana_leaves", "farming_plus:banana"},
+	radius = 2,
+})
 
 minetest.register_on_generated(function(minp, maxp, blockseed)
 	if math.random(1, 100) > 17 then
@@ -88,7 +93,7 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 
 	local pos = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:dirt_with_grass"})
 	if pos ~= nil then
-		farming_plus.generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "default:tree", "farming_plus:banana_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=10})
+		farming_plus.generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "farming_plus:banana_tree", "farming_plus:banana_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=10})
 	end
 end)
 
@@ -108,7 +113,7 @@ farming_plus.add_tree("banana",
 			return nil
 		end
 		local pos = {x=node.x, y=node.y+1, z=node.z}
-		farming_plus.generate_tree(pos, "default:tree", "farming_plus:banana_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=10})
+		farming_plus.generate_tree(pos, "farming_plus:banana_tree", "farming_plus:banana_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=10})
 		return pos
 	end,
 	17
