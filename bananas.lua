@@ -77,26 +77,6 @@ default.register_leafdecay({
 	radius = 2,
 })
 
-minetest.register_on_generated(function(minp, maxp, blockseed)
-	if math.random(1, 100) > 17 then
-		return
-	end
-	local tmp = {x=(maxp.x-minp.x)/2+minp.x, y=(maxp.y-minp.y)/2+minp.y, z=(maxp.z-minp.z)/2+minp.z}
-
-	-- Evil hack: I can't figure out how to tell whether we're in a jungle
-	-- biome, but if there are no jungle tree around then we probably
-	-- aren't.
-	local jungle = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:jungletree"})
-	if jungle == nil then
-		return
-	end
-
-	local pos = minetest.find_node_near(tmp, maxp.x-minp.x, {"default:dirt_with_grass"})
-	if pos ~= nil then
-		farming_plus.generate_tree({x=pos.x, y=pos.y+1, z=pos.z}, "farming_plus:banana_tree", "farming_plus:banana_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=10})
-	end
-end)
-
 farming_plus.add_tree("banana",
 	function(minp, maxp, blockseed)
 		local tmp = {x=(maxp.x-minp.x)/2+minp.x, y=(maxp.y-minp.y)/2+minp.y, z=(maxp.z-minp.z)/2+minp.z}
