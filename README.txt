@@ -1,8 +1,10 @@
-===FARMING_PLUS MOD for MINETEST===
-by PilzAdam
+=== farming_plus mod for Minetest ===
+Originally by PilzAdam
+Modified by Wade Cline
+Tree Generation code based on code taken from minetest_game
 
 License:
-Sourcecode: WTFPL (see below)
+Sourcecode: LGPL 2.1 (see LICENSE file)
 Graphics: WTFPL (see below)
 
 See also:

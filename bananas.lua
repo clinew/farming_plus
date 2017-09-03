@@ -1,3 +1,21 @@
+
+--  'farming_plus' farming mod for Minetest.
+--  Copyright (C) 2017  PilzAdam, Wade Cline
+--
+--  This library is free software; you can redistribute it and/or
+--  modify it under the terms of the GNU Lesser General Public
+--  License as published by the Free Software Foundation; either
+--  version 2.1 of the License, or (at your option) any later version.
+--
+--  This library is distributed in the hope that it will be useful,
+--  but WITHOUT ANY WARRANTY; without even the implied warranty of
+--  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+--  Lesser General Public License for more details.
+--
+--  You should have received a copy of the GNU Lesser General Public
+--  License along with this library; if not, write to the Free Software
+--  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
 -- main `S` code in init.lua
 local S
 S = farming_plus.S
@@ -67,7 +85,7 @@ minetest.register_abm({
 		end
 		minetest.log("action", "A banana sapling grows into a tree at "..
 			minetest.pos_to_string(pos))
-		farming_plus.generate_tree(pos, "farming_plus:banana_tree", "farming_plus:banana_leaves", {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=20})
+		farming_plus.generate_tree(pos, "farming_plus:banana_tree", "farming_plus:banana_leaves", {"default:dirt", "default:dirt_with_grass"}, "farming_plus:banana", 20)
 	end
 })
 
@@ -93,7 +111,7 @@ farming_plus.add_tree("banana",
 			return nil
 		end
 		local pos = {x=node.x, y=node.y+1, z=node.z}
-		farming_plus.generate_tree(pos, "farming_plus:banana_tree", "farming_plus:banana_leaves",  {"default:dirt", "default:dirt_with_grass"}, {["farming_plus:banana"]=10})
+		farming_plus.generate_tree(pos, "farming_plus:banana_tree", "farming_plus:banana_leaves",  {"default:dirt", "default:dirt_with_grass"}, "farming_plus:banana", 10)
 		return pos
 	end,
 	17
