@@ -42,22 +42,22 @@ cocoa_tree.description = "Cocoa Tree"
 cocoa_tree.drop = "default:tree"
 minetest.register_node("farming_plus:cocoa_tree", cocoa_tree)
 
-minetest.register_node("farming_plus:cocoa_leaves", {
-	drawtype = "allfaces_optional",
-	tiles = {"farming_plus_banana_leaves.png"},
-	paramtype = "light",
-	groups = {snappy=3, leafdecay=3, flammable=2, not_in_creative_inventory=1},
- 	drop = {
-		max_items = 1,
-		items = {
-			{
-				items = {'farming_plus:cocoa_sapling'},
-				rarity = 20,
-			},
+local cocoa_leaves = table.copy(minetest.registered_nodes["default:leaves"])
+cocoa_leaves.description = "Cocoa Leaves"
+cocoa_leaves.drop = {
+	max_items = 1,
+	items = {
+		{
+			items = {"farming_plus:cocoa_sapling"},
+			rarity = 20,
+		},
+		{
+			items = {"farming_plus:banana_leaves"},
 		}
-	},
-	sounds = default.node_sound_leaves_defaults(),
-})
+	}
+}
+cocoa_leaves.tiles = {"farming_plus_banana_leaves.png"}
+minetest.register_node("farming_plus:cocoa_leaves", cocoa_leaves)
 
 minetest.register_node("farming_plus:cocoa", {
 	description = S("Cocoa"),
@@ -90,7 +90,7 @@ minetest.register_abm({
 
 default.register_leafdecay({
 	trunks = {"farming_plus:cocoa_tree"},
-	leaves = {"farming_plus:cocoa_leaves", "farming_plus:cocoa"},
+	leaves = {"farming_plus:cocoa_leaves", "farming_plus:cocoa", "farming_plus:banana_leaves"},
 	radius = 2,
 })
 

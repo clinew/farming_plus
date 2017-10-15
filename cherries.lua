@@ -44,22 +44,21 @@ cherry_tree.description = "Cherry Tree"
 cherry_tree.drop = "default:tree"
 minetest.register_node("farming_plus:cherry_tree", cherry_tree)
 
-minetest.register_node("farming_plus:cherry_leaves", {
-	drawtype = "allfaces_optional",
-	tiles = {"default_leaves.png"},
-	paramtype = "light",
-	groups = {snappy=3, leafdecay=3, flammable=2, not_in_creative_inventory=1},
-	drop = {
-		max_items = 1,
-		items = {
-			{
-				items = {'farming_plus:cherry_sapling'},
-				rarity = 20,
-			},
+local cherry_leaves = table.copy(minetest.registered_nodes["default:leaves"])
+cherry_leaves.description = "Cherry Leaves"
+cherry_leaves.drop = {
+	max_items = 1,
+	items = {
+		{
+			items = {"farming_plus:cherry_sapling"},
+			rarity = 20,
+		},
+		{
+			items = {"default:leaves"},
 		}
-	},
-	sounds = default.node_sound_leaves_defaults(),
-})
+	}
+}
+minetest.register_node("farming_plus:cherry_leaves", cherry_leaves)
 
 minetest.register_node("farming_plus:cherry", {
 	description = S("Cherry"),
@@ -92,7 +91,7 @@ minetest.register_abm({
 
 default.register_leafdecay({
 	trunks = {"farming_plus:cherry_tree"},
-	leaves = {"farming_plus:cherry_leaves", "farming_plus:cherry"},
+	leaves = {"farming_plus:cherry_leaves", "farming_plus:cherry", "default:leaves"},
 	radius = 2,
 })
 

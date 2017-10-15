@@ -44,22 +44,21 @@ orange_tree.description = "Orange Tree"
 orange_tree.drop = "default:tree"
 minetest.register_node("farming_plus:orange_tree", orange_tree)
 
-minetest.register_node("farming_plus:orange_leaves", {
-	drawtype = "allfaces_optional",
-	tiles = {"default_leaves.png"},
-	paramtype = "light",
-	groups = {snappy=3, leafdecay=3, flammable=2, not_in_creative_inventory=1},
- 	drop = {
-		max_items = 1,
-		items = {
-			{
-				items = {'farming_plus:orange_sapling'},
-				rarity = 20,
-			},
+local orange_leaves = table.copy(minetest.registered_nodes["default:leaves"])
+orange_leaves.description = "Orange Leaves"
+orange_leaves.drop = {
+	max_items = 1,
+	items = {
+		{
+			items = {"farming_plus:orange_sapling"},
+			rarity = 20,
+		},
+		{
+			items = {"default:leaves"},
 		}
-	},
-	sounds = default.node_sound_leaves_defaults(),
-})
+	}
+}
+minetest.register_node("farming_plus:orange_leaves", orange_leaves)
 
 minetest.register_node("farming_plus:orange", {
 	description = S("Orange"),
@@ -94,7 +93,7 @@ minetest.register_abm({
 
 default.register_leafdecay({
 	trunks = {"farming_plus:orange_tree"},
-	leaves = {"farming_plus:orange_leaves", "farming_plus:orange"},
+	leaves = {"farming_plus:orange_leaves", "farming_plus:orange", "default:leaves"},
 	radius = 2,
 })
 
