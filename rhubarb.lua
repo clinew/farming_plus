@@ -20,69 +20,22 @@
 local S
 S = farming_plus.S
 
-minetest.register_craftitem("farming_plus:rhubarb_seed", {
-	description = S("Rhubarb Seeds"),
+farming.register_plant("farming_plus:rhubarb2", {
+	description = "Rhubarb Seed",
 	inventory_image = "farming_plus_rhubarb_seed.png",
-	on_place = function(itemstack, placer, pointed_thing)
-		return farming_plus.place_seed(itemstack, placer, pointed_thing, "farming_plus:rhubarb_1")
-	end
+	steps = 3,
+	minlight = 13,
+	maxlight = default.LIGHT_MAX,
+	fertility = {"grassland"},
+	groups = {flammable = 2},
 })
+minetest.register_alias("farming_plus:rhubarb", "farming_plus:rhubarb2_3")
+minetest.register_alias("farming_plus:rhubarb_seed", "farming_plus:seed_rhubarb2")
 
-minetest.register_node("farming_plus:rhubarb_1", {
-	paramtype = "light",
-	walkable = false,
-	drawtype = "plantlike",
-	drop = "",
-	tiles = {"farming_plus_rhubarb_1.png"},
-	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, -0.5+5/16, 0.5}
-		},
-	},
-	groups = {snappy=3, flammable=2, not_in_creative_inventory=1,plant=1},
-	sounds = default.node_sound_leaves_defaults(),
-})
-
-minetest.register_node("farming_plus:rhubarb_2", {
-	paramtype = "light",
-	walkable = false,
-	drawtype = "plantlike",
-	drop = "",
-	tiles = {"farming_plus_rhubarb_2.png"},
-	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, -0.5+11/16, 0.5}
-		},
-	},
-	groups = {snappy=3, flammable=2, not_in_creative_inventory=1,plant=1},
-	sounds = default.node_sound_leaves_defaults(),
-})
-
-minetest.register_node("farming_plus:rhubarb", {
-	paramtype = "light",
-	walkable = false,
-	drawtype = "plantlike",
-	tiles = {"farming_plus_rhubarb_3.png"},
-	drop = {
-		max_items = 6,
-		items = {
-			{ items = {'farming_plus:rhubarb_seed'} },
-			{ items = {'farming_plus:rhubarb_seed'}, rarity = 2},
-			{ items = {'farming_plus:rhubarb_seed'}, rarity = 5},
-			{ items = {'farming_plus:rhubarb_item'} },
-			{ items = {'farming_plus:rhubarb_item'}, rarity = 2 },
-			{ items = {'farming_plus:rhubarb_item'}, rarity = 5 }
-		}
-	},
-	groups = {snappy=3, flammable=2, not_in_creative_inventory=1,plant=1},
-	sounds = default.node_sound_leaves_defaults(),
-})
-
-minetest.register_craftitem("farming_plus:rhubarb_item", {
+minetest.register_craftitem("farming_plus:rhubarb2", {
 	description = S("Rhubarb"),
 	inventory_image = "farming_plus_rhubarb.png",
 })
+minetest.register_alias("farming_plus:rhubarb_item", "farming_plus:rhubarb2")
 
-farming_plus.add_plant("farming_plus:rhubarb", {"farming_plus:rhubarb_1", "farming_plus:rhubarb_2"}, 50, 20)
+table.insert(farming_plus.registered_plants, {full_grown = "farming_plus:rhubarb"})

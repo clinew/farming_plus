@@ -20,86 +20,23 @@
 local S
 S = farming_plus.S
 
-minetest.register_craftitem("farming_plus:strawberry_seed", {
-	description = S("Strawberry Seeds"),
+farming.register_plant("farming_plus:strawberry2", {
+	description = "Strawberry Seed",
 	inventory_image = "farming_plus_strawberry_seed.png",
-	on_place = function(itemstack, placer, pointed_thing)
-		return farming_plus.place_seed(itemstack, placer, pointed_thing, "farming_plus:strawberry_1")
-	end
+	steps = 4,
+	minlight = 13,
+	maxlight = default.LIGHT_MAX,
+	fertility = {"grassland"},
+	groups = {flammable = 2},
 })
+minetest.register_alias("farming_plus:strawberry", "farming_plus:strawberry2_4")
+minetest.register_alias("farming_plus:strawberry_seed", "farming_plus:seed_strawberry2")
 
-minetest.register_node("farming_plus:strawberry_1", {
-	paramtype = "light",
-	walkable = false,
-	drawtype = "plantlike",
-	drop = "",
-	tiles = {"farming_plus_strawberry_1.png"},
-	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, -0.5+9/16, 0.5}
-		},
-	},
-	groups = {snappy=3, flammable=2, not_in_creative_inventory=1,plant=1},
-	sounds = default.node_sound_leaves_defaults(),
-})
-
-minetest.register_node("farming_plus:strawberry_2", {
-	paramtype = "light",
-	walkable = false,
-	drawtype = "plantlike",
-	drop = "",
-	tiles = {"farming_plus_strawberry_2.png"},
-	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, -0.5+12/16, 0.5}
-		},
-	},
-	groups = {snappy=3, flammable=2, not_in_creative_inventory=1,plant=1},
-	sounds = default.node_sound_leaves_defaults(),
-})
-
-minetest.register_node("farming_plus:strawberry_3", {
-	paramtype = "light",
-	walkable = false,
-	drawtype = "plantlike",
-	drop = "",
-	tiles = {"farming_plus_strawberry_3.png"},
-	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, -0.5+14/16, 0.5}
-		},
-	},
-	groups = {snappy=3, flammable=2, not_in_creative_inventory=1,plant=1},
-	sounds = default.node_sound_leaves_defaults(),
-})
-
-minetest.register_node("farming_plus:strawberry", {
-	paramtype = "light",
-	walkable = false,
-	drawtype = "plantlike",
-	tiles = {"farming_plus_strawberry_4.png"},
-	drop = {
-		max_items = 6,
-		items = {
-			{ items = {'farming_plus:strawberry_seed'} },
-			{ items = {'farming_plus:strawberry_seed'}, rarity = 2},
-			{ items = {'farming_plus:strawberry_seed'}, rarity = 5},
-			{ items = {'farming_plus:strawberry_item'} },
-			{ items = {'farming_plus:strawberry_item'}, rarity = 2 },
-			{ items = {'farming_plus:strawberry_item'}, rarity = 5 }
-		}
-	},
-	groups = {snappy=3, flammable=2, not_in_creative_inventory=1,plant=1},
-	sounds = default.node_sound_leaves_defaults(),
-})
-
-minetest.register_craftitem("farming_plus:strawberry_item", {
+minetest.register_craftitem("farming_plus:strawberry2", {
 	description = S("Strawberry"),
 	inventory_image = "farming_plus_strawberry.png",
 	on_use = minetest.item_eat(2),
 })
+minetest.register_alias("farming_plus:strawberry_item", "farming_plus:strawberry2")
 
-farming_plus.add_plant("farming_plus:strawberry", {"farming_plus:strawberry_1", "farming_plus:strawberry_2", "farming_plus:strawberry_3"}, 50, 20)
+table.insert(farming_plus.registered_plants, {full_grown = "farming_plus:strawberry"})
