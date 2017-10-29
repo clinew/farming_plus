@@ -248,6 +248,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
                                                                 local plant = farming_plus.registered_plants[plant_choice]
                                                                 if plant then
                                                                         minetest.set_node(p, {name=plant.full_grown})
+									minetest.log("Generated rare '"..plant.full_grown:split(":")[2].."' plant at '"..minetest.pos_to_string(p).."'")
                                                                 end
                                                         end
                                                 end
