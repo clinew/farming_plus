@@ -20,20 +20,23 @@
 local S
 S = farming_plus.S
 
-minetest.register_craftitem(":farming_plus:pumpkin_seed", {
-	description = S("Pumpkin Seed"),
+
+farming.register_plant("farming_plus:pumpkin2", {
+	description = "Pumpkin Seed",
 	inventory_image = "farming_plus_pumpkin_seed.png",
-	on_place = function(itemstack, placer, pointed_thing)
-		return farming_plus.place_seed(itemstack, placer, pointed_thing, "farming_plus:pumpkin_1")
-	end
+	steps = 3,
+	minlight = 13,
+	maxlight = default.LIGHT_MAX,
+	fertility = {"grassland"},
+	groups = {flammable = 2},
 })
-
-minetest.register_node(":farming_plus:pumpkin_1", {
-	paramtype = "light",
-	sunlight_propagates = true,
+minetest.register_alias("farming_plus:pumpkin", "farming_plus:pumpkin2_3")
+minetest.register_alias("farming_plus:pumpkin_seed", "farming_plus:seed_pumpkin2")
+minetest.override_item("farming_plus:pumpkin2_1", {  -- These overrides are just ugly as sin.
 	drawtype = "nodebox",
 	drop = "",
 	tiles = {"farming_plus_pumpkin_top.png", "farming_plus_pumpkin_top.png", "farming_plus_pumpkin_side.png", "farming_plus_pumpkin_side.png", "farming_plus_pumpkin_side.png", "farming_plus_pumpkin_side.png"},
+	walkable = true,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -48,14 +51,13 @@ minetest.register_node(":farming_plus:pumpkin_1", {
 	},
 	groups = {choppy=2, oddly_breakable_by_hand=2, flammable=2, not_in_creative_inventory=1, plant=1},
 	sounds = default.node_sound_wood_defaults(),
-})
-
-minetest.register_node(":farming_plus:pumpkin_2", {
-	paramtype = "light",
-	sunlight_propagates = true,
+	}
+)
+minetest.override_item("farming_plus:pumpkin2_2", {
 	drawtype = "nodebox",
 	drop = "",
 	tiles = {"farming_plus_pumpkin_top.png", "farming_plus_pumpkin_top.png", "farming_plus_pumpkin_side.png", "farming_plus_pumpkin_side.png", "farming_plus_pumpkin_side.png", "farming_plus_pumpkin_side.png"},
+	walkable = true,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -70,12 +72,16 @@ minetest.register_node(":farming_plus:pumpkin_2", {
 	},
 	groups = {choppy=2, oddly_breakable_by_hand=2, flammable=2, not_in_creative_inventory=1, plant=1},
 	sounds = default.node_sound_wood_defaults(),
-})
-
-minetest.register_node(":farming_plus:pumpkin", {
+	}
+)
+minetest.override_item("farming_plus:pumpkin", {
 	description = S("Pumpkin"),
-	paramtype2 = "facedir",
+	drawtype = "nodebox",
+	drop = "farming_plus:pumpkin",
 	tiles = {"farming_plus_pumpkin_top.png", "farming_plus_pumpkin_top.png", "farming_plus_pumpkin_side.png", "farming_plus_pumpkin_side.png", "farming_plus_pumpkin_side.png", "farming_plus_pumpkin_side.png"},
+	walkable = true,
+	node_box = {type = "regular"},
+	selection_box = {type = "regular"},
 	groups = {choppy=2, oddly_breakable_by_hand=2, flammable=2, plant=1},
 	sounds = default.node_sound_wood_defaults(),
 	
@@ -93,9 +99,10 @@ minetest.register_node(":farming_plus:pumpkin", {
 			end
 		end
 	end
-})
+	}
+)
 
-farming_plus.add_plant("farming_plus:pumpkin", {"farming_plus:pumpkin_1", "farming_plus:pumpkin_2"}, 80, 20)
+table.insert(farming_plus.registered_plants, "farming_plus:pumpkin")
 
 minetest.register_node(":farming_plus:pumpkin_face", {
 	description = S("Pumpkin Face"),

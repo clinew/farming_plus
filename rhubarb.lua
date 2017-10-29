@@ -38,4 +38,4 @@ minetest.register_craftitem("farming_plus:rhubarb2", {
 })
 minetest.register_alias("farming_plus:rhubarb_item", "farming_plus:rhubarb2")
 
-table.insert(farming_plus.registered_plants, {full_grown = "farming_plus:rhubarb"})
+table.insert(farming_plus.registered_plants, "farming_plus:rhubarb")

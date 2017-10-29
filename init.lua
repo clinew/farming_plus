@@ -31,49 +31,6 @@ else
 	farming_plus.S = function ( s ) return s end
 end
 
-function farming_plus.add_plant(full_grown, names, interval, chance)
-	minetest.register_abm({
-		nodenames = names,
-		interval = interval,
-		chance = chance,
-		action = function(pos, node)
-			pos.y = pos.y-1
-			if minetest.get_node(pos).name ~= "farming:soil_wet" then
-				return
-			end
-			pos.y = pos.y+1
-			if not minetest.get_node_light(pos) then
-				return
-			end
-			if minetest.get_node_light(pos) < 8 then
-				return
-			end
-			local step = nil
-			for i,name in ipairs(names) do
-				if name == node.name then
-					step = i
-					break
-				end
-			end
-			if step == nil then
-				return
-			end
-			local new_node = {name=names[step+1]}
-			if new_node.name == nil then
-				new_node.name = full_grown
-			end
-			minetest.set_node(pos, new_node)
-		end
-	})
-
-	table.insert(farming_plus.registered_plants, {
-		full_grown = full_grown,
-		names = names,
-		interval = interval,
-		chance = chance,
-	})
-end
-
 -- Register tree-generation functions.
 -- The 'generator' function returns either 'nil' if the tree is not generated
 -- or it returns the position where the tree was generated at.
@@ -193,17 +150,6 @@ function farming_plus.generate_tree(pos, trunk, leaves, underground, fruit, rari
 	vm:update_map()
 end
 
-farming_plus.seeds = {
-	["farming_plus:pumpkin_seed"]=60,
-	["farming_plus:strawberry_seed"]=30,
-	["farming_plus:rhubarb_seed"]=30,
-	["farming_plus:potatoe_seed"]=30,
-	["farming_plus:tomato_seed"]=30,
-	["farming_plus:orange_seed"]=30,
-	["farming_plus:carrot_seed"]=30,
-}
-
-
 -- ========= GENERATE PLANTS IN THE MAP =========
 minetest.register_on_generated(function(minp, maxp, seed)
         if maxp.y >= 2 and minp.y <= 0 then
@@ -247,8 +193,8 @@ minetest.register_on_generated(function(minp, maxp, seed)
                                                                 local plant_choice = math.floor(perlin1:get2d({x=x,y=z})*(#farming_plus.registered_plants))
                                                                 local plant = farming_plus.registered_plants[plant_choice]
                                                                 if plant then
-                                                                        minetest.set_node(p, {name=plant.full_grown})
-									minetest.log("Generated rare '"..plant.full_grown:split(":")[2].."' plant at '"..minetest.pos_to_string(p).."'")
+                                                                        minetest.set_node(p, {name=plant})
+                                                                        minetest.log("Generated rare '"..plant:split(":")[2].."' plant at '"..minetest.pos_to_string(p).."'")
                                                                 end
                                                         end
                                                 end
@@ -283,62 +229,6 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		minetest.log("Generated rare '"..tree.name.."' tree at '"..minetest.pos_to_string(ret).."'")
 	end
 end)
-
-function farming_plus.place_seed(itemstack, placer, pointed_thing, plantname)
-
-	-- Call on_rightclick if the pointed node defines it
-	if pointed_thing.type == "node" and placer and
-		not placer:get_player_control().sneak then
-		local n = minetest.get_node(pointed_thing.under)
-		local nn = n.name
-		if minetest.registered_nodes[nn] and minetest.registered_nodes[nn].on_rightclick then
-			return minetest.registered_nodes[nn].on_rightclick(pointed_thing.under, n,
-			placer, itemstack, pointed_thing) or itemstack, false
-		end
-	end
-
-	local pt = pointed_thing
-	-- check if pointing at a node
-	if not pt then
-		return
-	end
-	if pt.type ~= "node" then
-		return
-	end
-
-	local under = minetest.get_node(pt.under)
-	local above = minetest.get_node(pt.above)
-
-	-- return if any of the nodes is not registered
-	if not minetest.registered_nodes[under.name] then
-		return
-	end
-	if not minetest.registered_nodes[above.name] then
-		return
-	end
-
-	-- check if pointing at the top of the node
-	if pt.above.y ~= pt.under.y+1 then
-		return
-	end
-
-	-- check if you can replace the node above the pointed node
-	if not minetest.registered_nodes[above.name].buildable_to then
-		return
-	end
-
-	-- check if pointing at soil
-	if minetest.get_item_group(under.name, "soil") < 2 then
-		return
-	end
-
-	-- add the node and remove 1 item from the itemstack
-	minetest.add_node(pt.above, {name=plantname, param2 = 1})
-	if not minetest.setting_getbool("creative_mode") then
-		itemstack:take_item()
-	end
-	return itemstack
-end
 
 -- ========= ALIASES FOR FARMING MOD BY SAPIER =========
 -- potatoe -> potatoe
