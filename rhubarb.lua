@@ -31,6 +31,8 @@ farming.register_plant("farming_plus:rhubarb2", {
 })
 minetest.register_alias("farming_plus:rhubarb", "farming_plus:rhubarb2_3")
 minetest.register_alias("farming_plus:rhubarb_seed", "farming_plus:seed_rhubarb2")
+minetest.register_alias("farming_plus:rhubarb_1", "farming_plus:rhubarb2_3")
+minetest.register_alias("farming_plus:rhubarb_2", "farming_plus:rhubarb2_3")
 
 minetest.register_craftitem("farming_plus:rhubarb2", {
 	description = S("Rhubarb"),

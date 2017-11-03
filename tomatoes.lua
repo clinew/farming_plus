@@ -31,6 +31,9 @@ farming.register_plant("farming_plus:tomato2", {
 })
 minetest.register_alias("farming_plus:tomato", "farming_plus:tomato2_4")
 minetest.register_alias("farming_plus:tomato_seed", "farming_plus:seed_tomato2")
+minetest.register_alias("farming_plus:tomato_1", "farming_plus:tomato2_4")
+minetest.register_alias("farming_plus:tomato_2", "farming_plus:tomato2_4")
+minetest.register_alias("farming_plus:tomato_3", "farming_plus:tomato2_4")
 
 minetest.register_craftitem("farming_plus:tomato2", {
 	description = S("Tomato"),

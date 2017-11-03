@@ -32,6 +32,8 @@ farming.register_plant("farming_plus:pumpkin2", {
 })
 minetest.register_alias("farming_plus:pumpkin", "farming_plus:pumpkin2_3")
 minetest.register_alias("farming_plus:pumpkin_seed", "farming_plus:seed_pumpkin2")
+minetest.register_alias("farming_plus:pumpkin_1", "farming_plus:pumpkin2_3")
+minetest.register_alias("farming_plus:pumpkin_2", "farming_plus:pumpkin2_3")
 minetest.override_item("farming_plus:pumpkin2_1", {  -- These overrides are just ugly as sin.
 	drawtype = "nodebox",
 	drop = "",

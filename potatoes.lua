@@ -31,6 +31,8 @@ farming.register_plant("farming_plus:potato2", {
 })
 minetest.register_alias("farming_plus:potato", "farming_plus:potato2_3")
 minetest.register_alias("farming_plus:potato_seed", "farming_plus:seed_potato2")
+minetest.register_alias("farming_plus:potato_1", "farming_plus:potato2_3")
+minetest.register_alias("farming_plus:potato_2", "farming_plus:potato2_3")
 
 minetest.register_craftitem("farming_plus:potato2", {
 	description = S("Potato"),
