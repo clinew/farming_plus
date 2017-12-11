@@ -35,6 +35,12 @@ minetest.register_node("farming_plus:banana_sapling", {
 	groups = {snappy = 2, dig_immediate=3, flammable=2, attached_node = 1,
 		sapling = 1},
 	sounds = default.node_sound_defaults(),
+	on_timer = function(pos, node)
+		farming_plus.generate_tree(pos, "farming_plus:banana_tree", "farming_plus:banana_leaves", {"default:dirt", "default:dirt_with_grass"}, "farming_plus:banana", 20, false)
+	end,
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(math.random(2400,4800))
+	end,
 })
 
 local banana_tree = table.copy(minetest.registered_nodes["default:tree"])
@@ -74,21 +80,6 @@ minetest.register_node("farming_plus:banana", {
 	on_use = minetest.item_eat(2),
 })
 
-minetest.register_abm({
-	nodenames = {"farming_plus:banana_sapling"},
-	interval = 60,
-	chance = 20,
-	catch_up = true,
-	action = function(pos, node)
-		if minetest.get_node_light(pos) < 13 then
-			return
-		end
-		minetest.log("action", "A banana sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		farming_plus.generate_tree(pos, "farming_plus:banana_tree", "farming_plus:banana_leaves", {"default:dirt", "default:dirt_with_grass"}, "farming_plus:banana", 20)
-	end
-})
-
 default.register_leafdecay({
 	trunks = {"farming_plus:banana_tree"},
 	leaves = {"farming_plus:banana_leaves", "farming_plus:banana"},
@@ -111,7 +102,7 @@ farming_plus.add_tree("banana",
 			return nil
 		end
 		local pos = {x=node.x, y=node.y+1, z=node.z}
-		farming_plus.generate_tree(pos, "farming_plus:banana_tree", "farming_plus:banana_leaves",  {"default:dirt", "default:dirt_with_grass"}, "farming_plus:banana", 10)
+		farming_plus.generate_tree(pos, "farming_plus:banana_tree", "farming_plus:banana_leaves",  {"default:dirt", "default:dirt_with_grass"}, "farming_plus:banana", 10, true)
 		return pos
 	end,
 	17

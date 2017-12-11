@@ -101,39 +101,49 @@ function farming_plus.add_trunk_and_leaves(data, a, pos, tree_cid, leaves_cid,
 end
 
 -- Based in part on minetest_game/mods/default/trees.lua v0.4.14
-function farming_plus.generate_tree(pos, trunk, leaves, underground, fruit, rarity)
+function farming_plus.generate_tree(pos, trunk, leaves, underground, fruit,
+	rarity, spawned)
 	local x, y, z = pos.x, pos.y, pos.z
 	local height = math.random(4, 5)
 	local c_tree = minetest.get_content_id(trunk)
 	local c_leaves = minetest.get_content_id(leaves)
+	local cant_grow = false
+	local light_required = spawned and 8 or 13
 
 	-- Check if growing is possible.
 	local nodename = minetest.get_node(pos).name
 	for _,name in ipairs(underground) do
 		if nodename == name then
 			-- Surface not suitable.
-			return
+			cant_grow = true
 		end
 	end
 	pos.y = pos.y+1
-	local light = minetest.get_node_light(pos, 0.5)
-	if not light or light < 8 then
+	local light = minetest.get_node_light(pos, spawned and 0.5 or nil)
+	if not light or light < light_required then
 		-- Too dark.
-		return
-	elseif minetest.get_mapgen_params().water_level >= pos.y then
+		cant_grow = true
+	elseif spawned and (minetest.get_mapgen_params().water_level >= pos.y) then
 		-- Underwater.
-		return
+		cant_grow = true
 	end
 	local node = {name = ""}
 	for dy=1,4 do
 		pos.y = pos.y+dy
 		if minetest.get_node(pos).name ~= "air" then
 			-- Obstructed.
-			return
+			cant_grow = true
 		end
 		pos.y = pos.y-dy
 	end
 	pos.y = pos.y-1
+	if cant_grow then
+		if spawned then
+			return
+		end
+		minetest.get_node_timer(pos):start(math.random(240, 600))
+		return
+	end
 
 	local vm = minetest.get_voxel_manip()
 	local minp, maxp = vm:read_from_map(
@@ -144,11 +154,33 @@ function farming_plus.generate_tree(pos, trunk, leaves, underground, fruit, rari
 	local data = vm:get_data()
 
 	farming_plus.add_trunk_and_leaves(data, a, pos, c_tree, c_leaves, height, 2, 8, fruit, rarity)
+	if spawned == false then
+		minetest.log("Node '" .. nodename .. "' grows into a tree at '" .. minetest.pos_to_string(pos) .. "'")
+	end
 
 	vm:set_data(data)
 	vm:write_to_map()
 	vm:update_map()
 end
+
+-- Start timers on nodes which did not previously have timers.
+minetest.register_lbm({
+	name = "farming_plus:sapling_growth",
+	nodenames = {"farming_plus:banana_sapling",
+		"farming_plus:cocoa_sapling",
+		"farming_plus:cherry_sapling",
+		"farming_plus:orange_sapling"},
+	run_at_every_load = true,
+	action = function(pos)
+		local timer = minetest.get_node_timer(pos)
+		if timer:is_started() == false then
+			timer:start(math.random(2400, 4800))
+			minetest.log("Started growth timer on '" ..
+				minetest.get_node(pos).name .. "' at '" ..
+				minetest.pos_to_string(pos) .. "'")
+		end
+	end
+})
 
 -- ========= GENERATE PLANTS IN THE MAP =========
 minetest.register_on_generated(function(minp, maxp, seed)
