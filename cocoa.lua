@@ -36,7 +36,7 @@ minetest.register_node("farming_plus:cocoa_sapling", {
 		sapling = 1},
 	sounds = default.node_sound_defaults(),
 	on_timer = function(pos, node)
-		farming_plus.generate_tree(pos, "farming_plus:cocoa_tree", "farming_plus:cocoa_leaves", {"default:dirt", "default:dirt_with_grass"}, "farming_plus:cocoa", 20, false)
+		farming_plus.generate_tree(pos, "farming_plus:cocoa_tree", "farming_plus:cocoa_leaves", {"default:dirt", "default:dirt_with_grass"}, "farming_plus:cocoa", 5, false)
 	end,
 	on_construct = function(pos)
 		minetest.get_node_timer(pos):start(math.random(2400,4800))
