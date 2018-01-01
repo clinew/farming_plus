@@ -112,15 +112,16 @@ function farming_plus.generate_tree(pos, trunk, leaves, underground, fruit,
 	local height = math.random(4, 5)
 	local c_tree = minetest.get_content_id(trunk)
 	local c_leaves = minetest.get_content_id(leaves)
-	local cant_grow = false
 	local light_required = spawned and 8 or 13
+	local cant_grow = true
 
 	-- Check if growing is possible.
-	local nodename = minetest.get_node(pos).name
+	local nodename = minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z}).name
 	for _,name in ipairs(underground) do
 		if nodename == name then
-			-- Surface not suitable.
-			cant_grow = true
+			-- Surface is suitable.
+			cant_grow = false
+			break
 		end
 	end
 	pos.y = pos.y+1
@@ -152,6 +153,7 @@ function farming_plus.generate_tree(pos, trunk, leaves, underground, fruit,
 		return
 	end
 
+	-- Grow the tree.
 	local vm = minetest.get_voxel_manip()
 	local minp, maxp = vm:read_from_map(
 		{x = pos.x - 2, y = pos.y, z = pos.z - 2},
