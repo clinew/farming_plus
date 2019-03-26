@@ -38,9 +38,7 @@ minetest.register_node("farming_plus:banana_sapling", {
 	on_timer = function(pos, node)
 		farming_plus.generate_tree(pos, "farming_plus:banana_tree", "farming_plus:banana_leaves", {"default:dirt", "default:dirt_with_grass"}, "farming_plus:banana", 5, false)
 	end,
-	on_construct = function(pos)
-		minetest.get_node_timer(pos):start(math.random(2400,4800))
-	end,
+	on_construct = farming_plus.tree_on_construct
 })
 
 local banana_tree = table.copy(minetest.registered_nodes["default:tree"])

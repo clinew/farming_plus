@@ -23,6 +23,11 @@ farming_plus = {}
 farming_plus.registered_plants = {}
 farming_plus.registered_trees = {}
 
+farming_plus.tree_growth_min = 2400
+farming_plus.tree_growth_max = 4800
+farming_plus.tree_growth_delay_min = 240
+farming_plus.tree_growth_delay_max = 600
+
 -- Boilerplate to support localized strings if intllib mod is installed.
 if (minetest.get_modpath("intllib")) then
 	dofile(minetest.get_modpath("intllib").."/intllib.lua")
@@ -141,7 +146,9 @@ function farming_plus.generate_tree(pos, trunk, leaves, underground, fruit,
 		if spawned then
 			return
 		end
-		minetest.get_node_timer(pos):start(math.random(240, 600))
+		minetest.get_node_timer(pos):start(math.random(
+			farming_plus.tree_growth_delay_min,
+			farming_plus.tree_growth_delay_max))
 		return
 	end
 
@@ -163,6 +170,13 @@ function farming_plus.generate_tree(pos, trunk, leaves, underground, fruit,
 	vm:update_map()
 end
 
+-- Define the function to call when a tree is created; start its growth timer.
+function farming_plus.tree_on_construct(pos)
+	minetest.get_node_timer(pos):start(math.random(
+		farming_plus.tree_growth_min,
+		farming_plus.tree_growth_max))
+end
+
 -- Start timers on nodes which did not previously have timers.
 minetest.register_lbm({
 	name = "farming_plus:sapling_growth",
@@ -174,7 +188,8 @@ minetest.register_lbm({
 	action = function(pos)
 		local timer = minetest.get_node_timer(pos)
 		if timer:is_started() == false then
-			timer:start(math.random(2400, 4800))
+			timer:start(math.random(farming_plus.tree_growth_min,
+				farming_plus.tree_growth_max))
 			minetest.log("Started growth timer on '" ..
 				minetest.get_node(pos).name .. "' at '" ..
 				minetest.pos_to_string(pos) .. "'")
